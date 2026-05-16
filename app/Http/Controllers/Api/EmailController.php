@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Jobs\SendEmailEinvoiceSend;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
+class EmailController extends Controller
+{
+    public function einvoice(Request $request)
+    {
+        // $request->validate([
+        //     'customer_name' => 'required|string|max:200',
+        //     'email'         => 'required|string|max:20',
+        //     'invoice_no'    => 'required|string|max:20',
+        //     'url_link'      => 'required|url',  
+        //     'company_name'  => 'required|string|max:255',
+        // ]);
+
+        $data = $request->all();
+
+        try {
+            SendEmailEinvoiceSend::dispatch($data)->onQueue('notifications');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Email e-invoice queued successfully.',
+            ], 200);
+
+        } catch (Exception $e) {
+            Log::error('Email e-invoice dispatch failed: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to queue Email e-invoice.',
+            ], 500);
+        }
+    }
+}
