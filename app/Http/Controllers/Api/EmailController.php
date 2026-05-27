@@ -7,18 +7,27 @@ use App\Jobs\SendEmailEinvoiceSend;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class EmailController extends Controller
 {
     public function einvoice(Request $request)
     {
-        // $request->validate([
-        //     'customer_name' => 'required|string|max:200',
-        //     'email'         => 'required|string|max:20',
-        //     'invoice_no'    => 'required|string|max:20',
-        //     'url_link'      => 'required|url',  
-        //     'company_name'  => 'required|string|max:255',
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'customer_name' => 'required|string|max:200',
+            'email'         => 'required|string|max:20',
+            'invoice_no'    => 'required|string|max:20',
+            'url_link'      => 'required|url',  
+            'company_name'  => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed.',
+                'errors'  => $validator->errors(),
+            ], 422);
+        }
 
         $data = $request->all();
 

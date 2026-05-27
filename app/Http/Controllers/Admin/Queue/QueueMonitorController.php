@@ -25,8 +25,7 @@ class QueueMonitorController extends Controller
 
         $pendingByQueue = DB::table('jobs')
             ->select('queue', DB::raw('count(*) as count'))
-            ->groupBy('queue')
-            ->pluck('count', 'queue');
+            ->groupBy('queue')->pluck('count', 'queue');
 
         $failed24h = DB::table('failed_jobs')
             ->where('failed_at', '>=', now()->subDay())
@@ -34,22 +33,14 @@ class QueueMonitorController extends Controller
 
         $failedTotal = DB::table('failed_jobs')->count();
 
-        // Oldest job still waiting → wait time estimate
         $oldestJob   = DB::table('jobs')->orderBy('created_at')->first();
-        $avgWaitSecs = $oldestJob
-            ? now()->diffInSeconds(Carbon::createFromTimestamp($oldestJob->created_at))
-            : 0;
+        $avgWaitSecs = $oldestJob ? now()->diffInSeconds(Carbon::createFromTimestamp($oldestJob->created_at)) : 0;
 
-        // Jobs processed today (stored in cache, incremented by a listener or job middleware)
         $processedToday = (int) Cache::get('queue_monitor:processed_today', 0);
 
-        // Jobs/min rolling counter (last 60s window stored in cache)
         $jobsPerMinute  = (int) Cache::get('queue_monitor:jobs_per_minute', 0);
 
-        // Attempts running right now (reserved_at is set when a worker picks up a job)
-        $processing = DB::table('jobs')
-            ->whereNotNull('reserved_at')
-            ->count();
+        $processing = DB::table('jobs')->whereNotNull('reserved_at')->count();
 
         return response()->json([
             'jobs_per_minute'   => $jobsPerMinute,
@@ -78,23 +69,16 @@ class QueueMonitorController extends Controller
                 DB::raw('min(created_at) as oldest_created_at'),
                 DB::raw('max(attempts) as max_attempts'),
                 DB::raw('avg(attempts) as avg_attempts')
-            )
-            ->groupBy('queue')
-            ->get();
+            )->groupBy('queue')->get();
 
         $failedCounts = DB::table('failed_jobs')
             ->select('queue', DB::raw('count(*) as count'))
-            ->groupBy('queue')
-            ->pluck('count', 'queue');
+            ->groupBy('queue')->pluck('count', 'queue');
 
         $data = $rows->map(function ($row) use ($failedCounts) {
-            $waitSecs  = $row->oldest_created_at
-                ? now()->diffInSeconds(Carbon::createFromTimestamp($row->oldest_created_at))
-                : 0;
+            $waitSecs  = $row->oldest_created_at ? now()->diffInSeconds(Carbon::createFromTimestamp($row->oldest_created_at)) : 0;
 
-            $load = $row->total > 0
-                ? min(100, (int) round(($row->processing / max(1, $row->total)) * 100))
-                : 0;
+            $load = $row->total > 0 ? min(100, (int) round(($row->processing / max(1, $row->total)) * 100)) : 0;
 
             return [
                 'name'         => $row->queue,
@@ -157,10 +141,8 @@ class QueueMonitorController extends Controller
                 $payload   = json_decode($job->payload, true) ?? [];
                 $exception = $job->exception ?? '';
 
-                // Extract first line of exception for the short error message
                 $shortError = collect(explode("\n", $exception))
-                    ->map(fn($l) => trim($l))
-                    ->filter()
+                    ->map(fn($l) => trim($l))->filter()
                     ->first() ?? 'Unknown error';
 
                 return [
@@ -240,9 +222,7 @@ class QueueMonitorController extends Controller
     {
         $deleted = DB::table('failed_jobs')->where('uuid', $uuid)->delete();
 
-        return $deleted
-            ? response()->json(['success' => true, 'message' => 'Job removed.'])
-            : response()->json(['success' => false, 'message' => 'Job not found.'], 404);
+        return $deleted ? response()->json(['success' => true, 'message' => 'Job removed.']) : response()->json(['success' => false, 'message' => 'Job not found.'], 404);
     }
 
     /**
@@ -279,7 +259,6 @@ class QueueMonitorController extends Controller
     {
         $data = $payload['data'] ?? $payload['command'] ?? [];
         if (is_string($data)) {
-            // Unserialize Laravel's serialized command string safely
             try {
                 $obj  = unserialize($data);
                 $data = (array) $obj;
@@ -287,10 +266,8 @@ class QueueMonitorController extends Controller
                 $data = ['raw' => substr($data, 0, 100)];
             }
         }
-        // Flatten one level and remove objects/closures
         return collect($data)
             ->filter(fn($v) => is_scalar($v))
-            ->take(5)
-            ->toArray();
+            ->take(5)->toArray();
     }
 }

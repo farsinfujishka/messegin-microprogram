@@ -41,17 +41,17 @@ class SendWhatsAppEinvoiceSend implements ShouldQueue
                 'to' => $phone,
                 'type' => 'template',
                 'template' => [
-                    'name' => 'customer_welcome_onboard',
+                    'name' => 'e_invoicing',
                     'language' => ['code' => 'en'],
                     'components' => [
                         [
                             'type' => 'body',
                             'parameters' => [
-                                ['type' => 'text', 'text' => $this->data['customer_name']],
-                                ['type' => 'text', 'text' => $this->data['customer_code'] ?? 'N/A'],
-                                ['type' => 'text', 'text' => Carbon::parse($this->data['subscription_start_date'])->format('d M Y')],
-                                ['type' => 'text', 'text' => Carbon::parse($this->data['subscription_end_date'])->format('d M Y')],
-                                ['type' => 'text', 'text' => (string) $this->data['user_limit']],
+                                ['type' => 'text', 'text' => $this->data['customer_name'] ?? 'Customer'],
+                                ['type' => 'text', 'text' => $this->data['invoice_no'] ?? 'INV-0001'],
+                                ['type' => 'text', 'text' => $this->data['amount'] ?? '100.00'],
+                                ['type' => 'text', 'text' => $this->data['url_link'] ?? 'https://example.com/invoice/INV-0001'],
+                                ['type' => 'text', 'text' => $this->data['company_name'] ?? 'Company'],
                             ],
                         ],
                     ],
@@ -67,7 +67,7 @@ class SendWhatsAppEinvoiceSend implements ShouldQueue
     private function formatPhoneNumber(string $phone): string
     {
         $cleaned = preg_replace('/\D/', '', $phone);
-        $defaultCode = config('services.whatsapp.default_country_code', '91');
+        $defaultCode = (string) config('services.whatsapp.default_country_code', '91');
         if (!str_starts_with($cleaned, $defaultCode)) {
             $cleaned = $defaultCode . ltrim($cleaned, '0');
         }
