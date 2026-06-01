@@ -1330,8 +1330,9 @@
                     </thead>
                     <tbody id="queuesBody">
                         <tr>
-                            <td colspan="9" class="empty"><i class="ti ti-loader-2"
-                                    style="animation:spinAnim 1s linear infinite"></i>Loading…</td>
+                            <td colspan="9" class="empty">
+                                <i class="ti ti-loader-2" style="animation:spinAnim 1s linear infinite"></i>Loading…
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -1353,8 +1354,9 @@
                     </thead>
                     <tbody id="pendingBody">
                         <tr>
-                            <td colspan="7" class="empty"><i class="ti ti-loader-2"
-                                    style="animation:spinAnim 1s linear infinite"></i>Loading…</td>
+                            <td colspan="7" class="empty">
+                                <i class="ti ti-loader-2" style="animation:spinAnim 1s linear infinite"></i>Loading…
+                            </td>
                         </tr>
                     </tbody>
                 </table>
