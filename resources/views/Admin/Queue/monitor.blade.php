@@ -1652,7 +1652,7 @@
                 });
                 removeRow(uuid);
                 loadStats();
-                toast('Job queued for retry ✓', 'success');
+                toast('Job queued for retry', 'success');
             } catch (e) {
                 showErr('Retry failed: ' + e.message);
                 toastErr('Retry failed');

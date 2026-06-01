@@ -101,6 +101,7 @@ class QueueMonitorController extends Controller
     /**
      * GET /api/queue/pending
      * Paginated list of pending jobs with decoded payload.
+     * 
      */
     public function pending(): JsonResponse
     {
@@ -115,9 +116,7 @@ class QueueMonitorController extends Controller
                     'queue'       => $job->queue,
                     'job'         => $this->parseJobName($payload),
                     'attempts'    => (int) $job->attempts,
-                    'reserved_at' => $job->reserved_at
-                        ? Carbon::createFromTimestamp($job->reserved_at)->diffForHumans()
-                        : null,
+                    'reserved_at' => $job->reserved_at ? Carbon::createFromTimestamp($job->reserved_at)->diffForHumans() : null,
                     'created_at'  => Carbon::createFromTimestamp($job->created_at)->diffForHumans(),
                     'status'      => $job->reserved_at ? 'processing' : 'pending',
                     'payload_preview' => $this->safePayloadPreview($payload),
