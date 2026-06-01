@@ -1377,8 +1377,7 @@
                     </thead>
                     <tbody id="failedBody">
                         <tr>
-                            <td colspan="6" class="empty"><i class="ti ti-loader-2"
-                                    style="animation:spinAnim 1s linear infinite"></i>Loading…</td>
+                            <td colspan="6" class="empty"><i class="ti ti-loader-2" style="animation:spinAnim 1s linear infinite"></i>Loading…</td>
                         </tr>
                     </tbody>
                 </table>
