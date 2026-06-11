@@ -20,15 +20,17 @@ class SendWhatsAppEinvoiceSend implements ShouldQueue
     public int $tries = 3;
     public int $backoff = 60;
 
-    public function __construct(public mixed $data)
+    public function __construct(public mixed $key, public mixed $data, public ?string $link = null)
     {
+        $this->key = $key;
         $this->data = $data;
+        $this->link = $link;
     }
 
     public function handle(): void
     {
-        $token = config('services.whatsapp.token');
-        $phoneNumberId = config('services.whatsapp.phone_number_id');
+        $token = $this->key['WHATSAPP_TOKEN'] ?? config('services.whatsapp.token');
+        $phoneNumberId = $this->key['WHATSAPP_PHONE_NUMBER_ID'] ?? config('services.whatsapp.phone_number_id');
         $version = config('services.whatsapp.version');
         $url = "https://graph.facebook.com/{$version}/{$phoneNumberId}/messages";
 
@@ -50,7 +52,7 @@ class SendWhatsAppEinvoiceSend implements ShouldQueue
                                 ['type' => 'text', 'text' => $this->data['customer_name'] ?? 'Customer'],
                                 ['type' => 'text', 'text' => $this->data['invoice_no'] ?? 'INV-0001'],
                                 ['type' => 'text', 'text' => $this->data['amount'] ?? '100.00'],
-                                ['type' => 'text', 'text' => $this->data['url_link'] ?? 'https://example.com/invoice/INV-0001'],
+                                ['type' => 'text', 'text' => $this->link ?? 'https://example.com/invoice/INV-0001'],
                                 ['type' => 'text', 'text' => $this->data['company_name'] ?? 'Company'],
                             ],
                         ],
