@@ -29,8 +29,8 @@ class SendWhatsAppEinvoiceSend implements ShouldQueue
 
     public function handle(): void
     {
-        $token = $this->key['WHATSAPP_TOKEN'] ?? config('services.whatsapp.token');
-        $phoneNumberId = $this->key['WHATSAPP_PHONE_NUMBER_ID'] ?? config('services.whatsapp.phone_number_id');
+        $token = $this->key['WHATSAPP_TOKEN'];
+        $phoneNumberId = $this->key['WHATSAPP_PHONE_NUMBER_ID'];
         $version = config('services.whatsapp.version');
         $url = "https://graph.facebook.com/{$version}/{$phoneNumberId}/messages";
 
