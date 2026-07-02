@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QueueWA — one API, message queued and delivered</title>
+    <title>Fujishka ERP — one API, message queued and delivered</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
@@ -332,7 +332,7 @@
 
         .capsule-rail {
             position: absolute;
-            top: 37px;
+            top: 44px;
             left: 56px;
             right: 56px;
             height: 2px;
@@ -342,7 +342,7 @@
 
         .ball {
             position: absolute;
-            top: 31px;
+            top: 38px;
             width: 12px;
             height: 12px;
             border-radius: 50%;
@@ -795,7 +795,7 @@
     <nav>
         <div class="wrap">
             <div class="brand">
-                <div class="brand-mark"><i class="bi bi-diagram-3-fill"></i></div>BQuick
+                <div class="brand-mark"><i class="bi bi-diagram-3-fill"></i></div>Fujishka ERP
             </div>
             <div class="nav-links">
                 <a href="#how">How it works</a>
@@ -812,10 +812,8 @@
                 <div class="eyebrow"><span class="live-dot"></span> Worker pool healthy · 3/3</div>
                 <h1>Send a message. <span class="accent">We queue it, we deliver it.</span></h1>
                 <p class="hero-sub">
-                    One API call with a phone number and a message is all you send. QueueWA takes it from there — queues
-                    the job,
-                    works through it in order, and hands it off to WhatsApp or email until it's confirmed delivered,
-                    retrying
+                    One API call with a phone number and a message is all you send. QueueWA takes it from there — queues the job,
+                    works through it in order, and hands it off to WhatsApp or email until it's confirmed delivered, retrying
                     on its own when a send fails.
                 </p>
                 <div class="hero-actions">
@@ -871,8 +869,10 @@
             <div class="section-head">
                 <div class="eyebrow">The pipeline</div>
                 <div class="section-title">What happens after you call the API</div>
-                <div class="section-sub">This part really is a fixed order — a job moves through exactly these three
-                    stages, in this sequence, every time.</div>
+                <div class="section-sub">
+                    This part really is a fixed order — a job moves 
+                    through exactly these three stages, in this sequence, every time.
+                </div>
             </div>
             <div class="flow-row">
                 <div class="flow-card">
@@ -978,7 +978,7 @@
 
     <footer>
         <div class="wrap">
-            <div>BQuick · message queue for whatsApp &amp; email delivery</div>
+            <div>Fujishka ERP · message queue for whatsApp &amp; email delivery</div>
         </div>
     </footer>
 

@@ -18,6 +18,7 @@ return array(
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
+    'App\\Rules\\WhatsAppNumber' => $baseDir . '/app/Rules/WhatsAppNumber.php',
     'App\\Traits\\CheckPhoneInMetaList' => $baseDir . '/app/Traits/CheckPhoneInMetaList.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Brick\\Math\\BigDecimal' => $vendorDir . '/brick/math/src/BigDecimal.php',

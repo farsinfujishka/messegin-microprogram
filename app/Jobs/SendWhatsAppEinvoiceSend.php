@@ -59,6 +59,7 @@ class SendWhatsAppEinvoiceSend implements ShouldQueue
                     ],
                 ],
             ]);
+            
 
         if ($response->failed()) {
             throw new Exception('WhatsApp API failed: ' . $response->body());

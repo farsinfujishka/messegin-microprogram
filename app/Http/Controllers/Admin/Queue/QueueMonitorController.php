@@ -112,13 +112,13 @@ class QueueMonitorController extends Controller
             ->map(function ($job) {
                 $payload = json_decode($job->payload, true) ?? [];
                 return [
-                    'id'          => $job->id,
-                    'queue'       => $job->queue,
-                    'job'         => $this->parseJobName($payload),
-                    'attempts'    => (int) $job->attempts,
-                    'reserved_at' => $job->reserved_at ? Carbon::createFromTimestamp($job->reserved_at)->diffForHumans() : null,
-                    'created_at'  => Carbon::createFromTimestamp($job->created_at)->diffForHumans(),
-                    'status'      => $job->reserved_at ? 'processing' : 'pending',
+                    'id'              => $job->id,
+                    'queue'           => $job->queue,
+                    'job'             => $this->parseJobName($payload),
+                    'attempts'        => (int) $job->attempts,
+                    'reserved_at'     => $job->reserved_at ? Carbon::createFromTimestamp($job->reserved_at)->diffForHumans() : null,
+                    'created_at'      => Carbon::createFromTimestamp($job->created_at)->diffForHumans(),
+                    'status'          => $job->reserved_at ? 'processing' : 'pending',
                     'payload_preview' => $this->safePayloadPreview($payload),
                 ];
             });
@@ -145,15 +145,15 @@ class QueueMonitorController extends Controller
                     ->first() ?? 'Unknown error';
 
                 return [
-                    'id'         => $job->uuid,
-                    'job'        => $this->parseJobName($payload),
-                    'queue'      => $job->queue,
-                    'connection' => $job->connection,
-                    'failed_at'  => Carbon::parse($job->failed_at)->diffForHumans(),
+                    'id'                 => $job->uuid,
+                    'job'                => $this->parseJobName($payload),
+                    'queue'              => $job->queue,
+                    'connection'         => $job->connection,
+                    'failed_at'          => Carbon::parse($job->failed_at)->diffForHumans(),
                     'failed_at_absolute' => Carbon::parse($job->failed_at)->toDateTimeString(),
-                    'attempts'   => (int) ($payload['attempts'] ?? 1),
-                    'error'      => $shortError,
-                    'exception'  => $exception,
+                    'attempts'           => (int) ($payload['attempts'] ?? 1),
+                    'error'              => $shortError,
+                    'exception'          => $exception,
                 ];
             });
 
@@ -197,12 +197,12 @@ class QueueMonitorController extends Controller
 
             DB::table($job->queue === 'default' ? 'jobs' : 'jobs')
                 ->insert([
-                    'queue'      => $job->queue,
-                    'payload'    => $job->payload,
-                    'attempts'   => 0,
-                    'reserved_at' => null,
+                    'queue'        => $job->queue,
+                    'payload'      => $job->payload,
+                    'attempts'     => 0,
+                    'reserved_at'  => null,
                     'available_at' => now()->addSeconds($delay)->timestamp,
-                    'created_at' => now()->timestamp,
+                    'created_at'   => now()->timestamp,
                 ]);
 
             DB::table('failed_jobs')->where('uuid', $uuid)->delete();

@@ -59,7 +59,7 @@ class WhatsappController extends Controller
             ], 422);
         }
 
-        $key = $request->key;
+        $key  = $request->key;
         $data = $request->data;
         $link = $request->link;
 

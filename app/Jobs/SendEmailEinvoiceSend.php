@@ -31,10 +31,10 @@ class SendEmailEinvoiceSend implements ShouldQueue
         $email = $this->data['email'];
 
         $payload = [
-            'customer_name'           => $this->data['customer_name'],
-            'invoice_no'             => $this->data['invoice_no'],
-            'url_link'              => $this->data['url_link'],
-            'company_name'          => $this->data['company_name'],
+            'customer_name' => $this->data['customer_name'],
+            'invoice_no'    => $this->data['invoice_no'],
+            'url_link'      => $this->data['url_link'],
+            'company_name'  => $this->data['company_name'],
         ];
 
         $sent = Mail::to($email)->send(new CustomerEinvoiceSending($payload));

@@ -15,8 +15,8 @@ class WhatsAppNumber implements ValidationRule
     public function __construct(
         private readonly array $key,
     ) {
-        $this->token             = $this->key['WHATSAPP_TOKEN'] ?? '';
-        $this->phoneNumberId     = $this->key['WHATSAPP_PHONE_NUMBER_ID'] ?? '';
+        $this->token         = $this->key['WHATSAPP_TOKEN'] ?? '';
+        $this->phoneNumberId = $this->key['WHATSAPP_PHONE_NUMBER_ID'] ?? '';
     }
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
