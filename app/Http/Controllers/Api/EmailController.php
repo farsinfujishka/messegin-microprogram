@@ -15,7 +15,7 @@ class EmailController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'customer_name' => 'required|string|max:200',
-            'email'         => 'required|string|max:20',
+            'email'         => 'required|string|email|max:255',
             'invoice_no'    => 'required|string|max:20',
             'url_link'      => 'required|url',  
             'company_name'  => 'required|string|max:255',
